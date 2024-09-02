@@ -24,11 +24,11 @@ Skladovni avtomat je matematično definiran kot nabor devetih elementov: $(Q, \S
 
 ## Navodila za uporabo.
 
-Navodila za uporabo spletnega vmesnika. (ali tekstovnega...)
+Navodila za uporabo spletnega vmesnika. (ali tekstovnega..)
 
 ## Struktura datotek
 
-Datoteke, kaj počnejo
+Datoteke, kaj počnejo :3
 
 ## Viri
 
