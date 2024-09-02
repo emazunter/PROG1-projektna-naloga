@@ -1,8 +1,12 @@
 # Skladovni avtomati
 
-Najprej napišeš kaj to je informalno. 
+Neformalna definicija.
 
-Potem predstaviš en primer (tisti, ki ga boš implementiral?)
+Razlika od končnih avtomatov.
+
+Primeri uporabe.
+
+Specifičen primer za uporabo v projektni.
 
 ## Matematična definicija
 
@@ -10,14 +14,16 @@ Copy paste iz wikipedije. (Saj se samo hecam, profesor!)
 
 ## Navodila za uporabo.
 
-Navodila za uporabo. Razdeljeno glede na datoteke.
+Navodila za uporabo spletnega vmesnika.
 
-### Spletni vmesnik
+## Struktura datotek
 
-A ciljam previsoko?
+Datoteke, kaj počnejo.
 
-## Implementacija
+## Viri
 
-### Struktura datotek
+Informacije o skladovnih avtomatih: https://en.wikipedia.org/wiki/Pushdown_automaton
 
-Self-explanatory.
+## Avtorji
+
+To sem sexy jaz
