@@ -60,7 +60,6 @@ let preverjanje_pravilnosti =
   and z = Stanje.iz_niza "z" 
   and nesprejemno = Stanje.iz_niza "nesprejemno" in
   prazen_avtomat zacetno (Sklad.ustvari 'p') 
-  (* Naredi modul za sklad!!! *)
   |> dodaj_sprejemno_stanje zacetno
   |> dodaj_sprejemno_stanje z
   |> dodaj_sprejemno_stanje n
