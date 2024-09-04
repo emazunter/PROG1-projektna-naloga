@@ -5,22 +5,19 @@ type t = {
   stanja : stanje list;
   sklad_1: sklad;
   sklad_2: sklad;
-  prehodi : (stanje * char * char) list * (stanje * char list * char list) list
+  prehodi : (stanje * char * char) list * (stanje * char list) list
   zacetno_stanje : stanje;
-  zacetni_sklad1: sklad;
-  zacetni_sklad2: sklad;
+  zacetni_sklad: sklad;
   sprejemna_stanja : stanje list;
 }
 
-let prazen_avtomat zacetno_stanje s1 s2 =
+let prazen_avtomat zacetno_stanje s1 =
   {
     stanja = [ zacetno_stanje ];
     sklad_1 = s1;
-    sklad_2 = s2;
     prehodi = [];
     zacetno_stanje;
     zacetni_sklad1: s1;
-    zacetni_sklad2: s2;
     sprejemna_stanja = [];
   }
 
@@ -34,14 +31,13 @@ let dodaj_sprejemno_stanje stanje avtomat =
     sprejemna_stanja = stanje :: avtomat.sprejemna_stanja;
   }
 
-let dodaj_prehod stanje1 prebrano vrh_s1 vrh_s2 stanje2 nov_s1 nov_s2 avtomat =
-  { avtomat with prehodi = (stanje1, prebrano, vrh_s1, vrh_s2, stanje2, nov_s1, nov_s2) :: avtomat.prehodi }
+let dodaj_prehod stanje1 prebrano vrh stanje2 nov_s avtomat =
+  { avtomat with prehodi = (stanje1, prebrano, vrh, stanje2, nov_s) :: avtomat.prehodi }
 
-let prehodna_funkcija avtomat stanje prebrano vrh_s1 vrh_s2 =
+let prehodna_funkcija avtomat stanje prebrano vrh =
   match
     List.find_opt
-      (fun (stanje1, prebrano', vrh_s1', vrh_s2', ostalo) -> stanje1 = stanje && prebrano = prebrano'
-      && vrh_s1 = vrh_s1' && vrh_s2 = vrh_s2')
+      (fun (stanje1, prebrano', vrh', ostalo) -> stanje1 = stanje && prebrano = prebrano' && vrh = vrh')
       avtomat.prehodi
   with
   | None -> None
