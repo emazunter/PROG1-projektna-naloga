@@ -52,14 +52,53 @@ let seznam_prehodov avtomat = avtomat.prehodi
 let je_sprejemno_stanje avtomat stanje =
   List.mem stanje avtomat.sprejemna_stanja
 
-let enke_1mod3 =
-  let q0 = Stanje.iz_niza "q0"
-  and q1 = Stanje.iz_niza "q1"
-  and q2 = Stanje.iz_niza "q2" in
-  prazen_avtomat q0 |> dodaj_sprejemno_stanje q1
-  |> dodaj_nesprejemno_stanje q2
-  |> dodaj_prehod q0 '0' q0 |> dodaj_prehod q1 '0' q1 |> dodaj_prehod q2 '0' q2
-  |> dodaj_prehod q0 '1' q1 |> dodaj_prehod q1 '1' q2 |> dodaj_prehod q2 '1' q0
+let preverjanje_pravilnosti =
+  let zacetno = Stanje.iz_niza "zacetno"
+  and n = Stanje.iz_niza "n"
+  and o = Stanje.iz_niza "o"
+  and u = Stanje.iz_niza "u"
+  and z = Stanje.iz_niza "z" 
+  and nesprejemno = Stanje.iz_niza "nesprejemno" in
+  prazen_avtomat zacetno (Sklad.ustvari 'p') 
+  (* Naredi modul za sklad!!! *)
+  |> dodaj_sprejemno_stanje zacetno
+  |> dodaj_sprejemno_stanje z
+  |> dodaj_sprejemno_stanje n
+  |> dodaj_nesprejemno_stanje o
+  |> dodaj_nesprejemno_stanje u
+  let operacija = "+" | "-" | "x" | "/" 
+  and stevilo = "1" | "2" | "3" | "4" | "5" | "6" | "7" |"8" | "9" |"0"
+  and uklepaj = "("
+  and zaklepaj = ")" in
+  |> dodaj_prehod zacetno operacija sklad nesprejemno sklad
+  |> dodaj_prehod zacetno stevilo sklad n sklad
+  |> dodaj_prehod zacetno uklepaj sklad u sklad
+  |> dodaj_prehod zacetno zaklepaj sklad nesprejemno sklad
+  |> dodaj_prehod o operacija sklad nesprejemno sklad
+  |> dodaj_prehod o stevilo sklad n sklad
+  |> dodaj_prehod o uklepaj sklad u ("1" :: sklad)
+  |> dodaj_prehod o zaklepaj sklad nesprejemno sklad
+  |> dodaj_prehod n operacija sklad o sklad
+  |> dodaj_prehod n stevilo sklad n sklad
+  |> dodaj_prehod n uklepaj sklad nesprejemno sklad
+  |> dodaj_prehod n zaklepaj ("1" :: sklad) z sklad
+  |> dodaj_prehod n zaklepaj ("p" :: sklad) nesprejemno ("p" :: sklad)
+  |> dodaj_prehod u operacija sklad nesprejemno sklad
+  |> dodaj_prehod u stevilo sklad u ("1" :: sklad)
+  |> dodaj_prehod u uklepaj sklad u ("1" :: sklad)
+  |> dodaj_prehod u zaklepaj sklad nesprejemno sklad
+  |> dodaj_prehod z operacija ("1" :: sklad) o sklad
+  |> dodaj_prehod z operacija ("p" :: sklad) nesprejemno ("p" :: sklad)
+  |> dodaj_prehod z stevilo sklad nesprejemno sklad
+  |> dodaj_prehod z uklepaj sklad nesprejemno sklad
+  |> dodaj_prehod z zaklepaj ("1" :: sklad) z sklad
+  |> dodaj_prehod z zaklepaj ("p" :: sklad) nesprejemno ("p" :: sklad)
+  |> dodaj_prehod nesprejemno operacija sklad nesprejemno sklad
+  |> dodaj_prehod nesprejemno stevilo sklad nesprejemno sklad
+  |> dodaj_prehod nesprejemno uklepaj sklad nesprejemno sklad
+  |> dodaj_prehod nesprejemno zaklepaj sklad nesprejemno sklad
+
+
 
 (* let preberi_niz avtomat q niz =
   let aux acc znak =
