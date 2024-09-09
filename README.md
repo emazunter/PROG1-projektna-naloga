@@ -23,6 +23,9 @@ Skladovni avtomat je matematično definiran kot nabor: $(Q, \Sigma, \Gamma_1, \G
 Še un tadrug del kako deluje tranzicijska relacija??
 
 ## Moj primer.
+
+Mogoče ne brat tega ker je narobe
+
 Skladovni avtomat, ki ga bom implementirala, preverja sintaktično pravilnost matematičnega izraza, ki vsebuje števke od 0 do 9 (ki lahko tvorijo tudi večja števila), znake za operacije +, -, x in /, ter oklepaja (, ). 
 
 Proces gre nekako tako: vsi trije skladi imajo ob pričetku začetni znak 0, ki predstavlja začetek. Avtomat pogleda prvi znak, ki je lahko bodisi uklepaj bodisi števka. Če ni, gre avtomat v nesprejemljivo stanje. Če je znak števka, avtomat na prvi sklad shrani "N", če je uklepaj pa znak "1". (Kasneje bomm videli, da za zaklepaj na sklad postavi znak "2" in za operacijo znak "O".) Potem pogleda drugi znak. 

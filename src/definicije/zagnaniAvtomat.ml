@@ -12,6 +12,7 @@ let korak_naprej { avtomat; trak; stanje } =
   else
     let stanje' =
       Avtomat.prehodna_funkcija avtomat stanje (Trak.trenutni_znak trak)
+      (* uredi to s skladom? *)
     in
     match stanje' with
     | None -> None
