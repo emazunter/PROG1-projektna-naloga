@@ -3,21 +3,20 @@ type sklad = Sklad.t
 
 type t = {
   stanja : stanje list;
-  sklad_1: sklad;
-  sklad_2: sklad;
-  prehodi : (stanje * char * char * stanje * char list) list
+  sklad : sklad;
+  prehodi : (stanje * char * char * stanje * char list) list;
   zacetno_stanje : stanje;
-  zacetni_sklad: sklad;
+  zacetni_sklad : sklad;
   sprejemna_stanja : stanje list;
 }
 
-let prazen_avtomat zacetno_stanje s1 =
+let prazen_avtomat zacetno_stanje s =
   {
     stanja = [ zacetno_stanje ];
-    sklad_1 = s1;
+    sklad = s;
     prehodi = [];
     zacetno_stanje;
-    zacetni_sklad1: s1;
+    zacetni_sklad = s;
     sprejemna_stanja = [];
   }
 
@@ -52,6 +51,17 @@ let seznam_prehodov avtomat = avtomat.prehodi
 let je_sprejemno_stanje avtomat stanje =
   List.mem stanje avtomat.sprejemna_stanja
 
+let zamenjaj = function
+| "+" | "-" | "x" | "/" -> "o"
+| "1" | "2" | "3" | "4" | "5" | "6" | "7" |"8" | "9" |"0" -> "s"
+| "(" -> "u"
+| ")" -> "z"
+| x -> x
+
+let dodaj_prehod_moj_avtomat stanje1 prebrano vrh stanje2 nov_s avtomat =
+  let novo = zamenjaj prebrano in
+   dodaj_prehod stanje1 novo vrh stanje2 nov_s avtomat
+
 let preverjanje_pravilnosti =
   let zacetno = Stanje.iz_niza "zacetno"
   and n = Stanje.iz_niza "n"
@@ -66,38 +76,33 @@ let preverjanje_pravilnosti =
   |> dodaj_nesprejemno_stanje o
   |> dodaj_nesprejemno_stanje u
   |> dodaj_nesprejemno_stanje nesprejemno 
-  let operacija = "+" | "-" | "x" | "/" 
-  and stevilo = "1" | "2" | "3" | "4" | "5" | "6" | "7" |"8" | "9" |"0"
-  and uklepaj = "("
-  and zaklepaj = ")" in
-  |> dodaj_prehod zacetno operacija sklad nesprejemno sklad
-  |> dodaj_prehod zacetno stevilo sklad n sklad
-  |> dodaj_prehod zacetno uklepaj sklad u sklad
-  |> dodaj_prehod zacetno zaklepaj sklad nesprejemno sklad
-  |> dodaj_prehod o operacija sklad nesprejemno sklad
-  |> dodaj_prehod o stevilo sklad n sklad
-  |> dodaj_prehod o uklepaj sklad u (Sklad.dodaj "1" sklad)
-  |> dodaj_prehod o zaklepaj sklad nesprejemno sklad
-  |> dodaj_prehod n operacija sklad o sklad
-  |> dodaj_prehod n stevilo sklad n sklad
-  |> dodaj_prehod n uklepaj sklad nesprejemno sklad
-  |> dodaj_prehod n zaklepaj ("1" :: sklad) z sklad
-  |> dodaj_prehod n zaklepaj ("p" :: sklad) nesprejemno (Sklad.dodaj "p" sklad)
-  |> dodaj_prehod u operacija sklad nesprejemno sklad
-  |> dodaj_prehod u stevilo sklad u ("1" :: sklad)
-  |> dodaj_prehod u uklepaj sklad u ("1" :: sklad)
-  |> dodaj_prehod u zaklepaj sklad nesprejemno sklad
-  |> dodaj_prehod z operacija ("1" :: sklad) o sklad
-  |> dodaj_prehod z operacija ("p" :: sklad) nesprejemno (Sklad.dodaj "p" sklad)
-  |> dodaj_prehod z stevilo sklad nesprejemno sklad
-  |> dodaj_prehod z uklepaj sklad nesprejemno sklad
-  |> dodaj_prehod z zaklepaj ("1" :: sklad) z sklad
-  |> dodaj_prehod z zaklepaj ("p" :: sklad) nesprejemno (Sklad.dodaj "p" sklad)
-  |> dodaj_prehod nesprejemno operacija sklad nesprejemno sklad
-  |> dodaj_prehod nesprejemno stevilo sklad nesprejemno sklad
-  |> dodaj_prehod nesprejemno uklepaj sklad nesprejemno sklad
-  |> dodaj_prehod nesprejemno zaklepaj sklad nesprejemno sklad
-
+  |> dodaj_prehod_moj_avtomat zacetno operacija sklad nesprejemno sklad
+  |> dodaj_prehod_moj_avtomat zacetno stevilo sklad n sklad
+  |> dodaj_prehod_moj_avtomat zacetno uklepaj sklad u sklad
+  |> dodaj_prehod_moj_avtomat zacetno zaklepaj sklad nesprejemno sklad
+  |> dodaj_prehod_moj_avtomat o operacija sklad nesprejemno sklad
+  |> dodaj_prehod_moj_avtomat o stevilo sklad n sklad
+  |> dodaj_prehod_moj_avtomat o uklepaj sklad u (Sklad.dodaj "1" sklad)
+  |> dodaj_prehod_moj_avtomat o zaklepaj sklad nesprejemno sklad
+  |> dodaj_prehod_moj_avtomat n operacija sklad o sklad
+  |> dodaj_prehod_moj_avtomat n stevilo sklad n sklad
+  |> dodaj_prehod_moj_avtomat n uklepaj sklad nesprejemno sklad
+  |> dodaj_prehod_moj_avtomat n zaklepaj ("1" :: sklad) z sklad
+  |> dodaj_prehod_moj_avtomat n zaklepaj ("p" :: sklad) nesprejemno (Sklad.dodaj "p" sklad)
+  |> dodaj_prehod_moj_avtomat u operacija sklad nesprejemno sklad
+  |> dodaj_prehod_moj_avtomat u stevilo sklad u ("1" :: sklad)
+  |> dodaj_prehod_moj_avtomat u uklepaj sklad u ("1" :: sklad)
+  |> dodaj_prehod_moj_avtomat u zaklepaj sklad nesprejemno sklad
+  |> dodaj_prehod_moj_avtomat z operacija ("1" :: sklad) o sklad
+  |> dodaj_prehod_moj_avtomat z operacija ("p" :: sklad) nesprejemno (Sklad.dodaj "p" sklad)
+  |> dodaj_prehod_moj_avtomat z stevilo sklad nesprejemno sklad
+  |> dodaj_prehod_moj_avtomat z uklepaj sklad nesprejemno sklad
+  |> dodaj_prehod_moj_avtomat z zaklepaj ("1" :: sklad) z sklad
+  |> dodaj_prehod_moj_avtomat z zaklepaj ("p" :: sklad) nesprejemno (Sklad.dodaj "p" sklad)
+  |> dodaj_prehod_moj_avtomat nesprejemno operacija sklad nesprejemno sklad
+  |> dodaj_prehod_moj_avtomat nesprejemno stevilo sklad nesprejemno sklad
+  |> dodaj_prehod_moj_avtomat nesprejemno uklepaj sklad nesprejemno sklad
+  |> dodaj_prehod_moj_avtomat nesprejemno zaklepaj sklad nesprejemno sklad
 
 
 let preberi_niz avtomat q niz =
