@@ -1,16 +1,14 @@
-# Skladovni avtomati s tremi skladi
+# Skladovni avtomati
 
 Neformalna definicija.
 
 Razlika od končnih avtomatov.
 
-Razlika od skladovnih avtomatov z samo enim skladom
-
-Specifičen primer za uporabo v projektni: primerjanje sintaktične pravilnosti izraza z števili od 0 do 9, oklepaji, ter znaki za operacije (+, -, x, /).
+Specifičen primer za uporabo v projektni: primerjanje sintaktične pravilnosti izraza
 
 ## Matematična definicija
 
-Skladovni avtomat je matematično definiran kot nabor: $(Q, \Sigma, \Gamma_1, \Gamma_2, \Gamma_3 \delta, q_0, Z_1, Z_2, Z_3, F)$, kjer so
+Skladovni avtomat je matematično definiran kot nabor: $(Q, \Sigma, \Gamma, \delta, q_0, Z, F)$, kjer so
 
 - $Q$ (končna) množica stanj,
 - $\Sigma$ končna množica, imenovana *vhodna abeceda*
@@ -24,15 +22,7 @@ Skladovni avtomat je matematično definiran kot nabor: $(Q, \Sigma, \Gamma_1, \G
 
 ## Moj primer.
 
-Mogoče ne brat tega ker je narobe
-
-Skladovni avtomat, ki ga bom implementirala, preverja sintaktično pravilnost matematičnega izraza, ki vsebuje števke od 0 do 9 (ki lahko tvorijo tudi večja števila), znake za operacije +, -, x in /, ter oklepaja (, ). 
-
-Proces gre nekako tako: vsi trije skladi imajo ob pričetku začetni znak 0, ki predstavlja začetek. Avtomat pogleda prvi znak, ki je lahko bodisi uklepaj bodisi števka. Če ni, gre avtomat v nesprejemljivo stanje. Če je znak števka, avtomat na prvi sklad shrani "N", če je uklepaj pa znak "1". (Kasneje bomm videli, da za zaklepaj na sklad postavi znak "2" in za operacijo znak "O".) Potem pogleda drugi znak. 
-
-Kateri prehodi so sprejemljivi sem osnovala glede na smiselnost predhodnega znaka. V sintaktično pravilnem matematičnem izrazu, recimo, pred znakom za operacijo ne moremo imeti uklepaja ali še enega znaka za operacijo. Zato, ko sklad na prvi (oz. drugi) sklad postavi znak O, pogleda zadnji znak iz drugega (oz. prvega) sklada. Če je le-ta "2" ali "N", avtomat nadaljuje delovanje. Če pa je "1" ali "O", avtomat delovanje prekine.
-
-Tretji sklad je namenjen preverjanju ujemanja oklepajev. Vsakič, ko na prvi ali drugi sklad zaipšemo "1", to zapišemo tudi na tretji sklad. Ko na prvi ali drugi sklad zapišemo "2", iz tretjega sklada vzamemo "1". Če avtomat iz sklada odstrani "0", gre v nesprejemno stanje. Če je ob koncu izvajanja na vrhu tretjega sklada kaj drugega kot "0", gre avtomat prav tako v nesprejemno stanje. 
+Implementirala bom skladovni avtomat, ki preverja sintaktično pravilnost niza z gnezdenimi oklepaji, tj. z znaki (, ), [, ], {, in }. 
 
 ## Navodila za uporabo.
 

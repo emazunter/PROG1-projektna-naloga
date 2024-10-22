@@ -41,8 +41,8 @@ let prehodna_funkcija avtomat stanje prebrano vrh =
   with
   | None -> None
   | Some (_, _, _, stanje2, nov_sklad) -> Some (stanje2, nov_sklad)
-  (* na seznamu prehodov najdeš takega ki ima pravo stanje, znake in vrneš some novo stanje
-  če obstaja ali none če ne *)
+  (* na seznamu prehodov najdeš takega ki ima pravo stanje, znake in vrneš Some novo stanje
+  če obstaja ali None če ne *)
 
 let zacetno_stanje avtomat = avtomat.zacetno_stanje
 let seznam_stanj avtomat = avtomat.stanja
@@ -51,7 +51,18 @@ let seznam_prehodov avtomat = avtomat.prehodi
 let je_sprejemno_stanje avtomat stanje =
   List.mem stanje avtomat.sprejemna_stanja
 
-let zamenjaj = function
+let preberi_niz avtomat q niz =
+  let aux acc znak =
+    match acc with None -> None | Some q -> prehodna_funkcija avtomat q znak
+  in
+  niz |> String.to_seq |> Seq.fold_left aux (Some q)
+
+let sintaksa_oklepajev = 
+
+
+
+
+(* let zamenjaj = function
 | "+" | "-" | "x" | "/" -> "o"
 | "1" | "2" | "3" | "4" | "5" | "6" | "7" |"8" | "9" |"0" -> "n"
 | "(" -> "u"
@@ -103,11 +114,5 @@ let preverjanje_pravilnosti =
   |> dodaj_prehod_moj_avtomat nesprejemno o sklad nesprejemno sklad
   |> dodaj_prehod_moj_avtomat nesprejemno n sklad nesprejemno sklad
   |> dodaj_prehod_moj_avtomat nesprejemno u sklad nesprejemno sklad
-  |> dodaj_prehod_moj_avtomat nesprejemno "z" sklad nesprejemno sklad
+  |> dodaj_prehod_moj_avtomat nesprejemno "z" sklad nesprejemno sklad *)
 
-
-let preberi_niz avtomat q niz =
-  let aux acc znak =
-    match acc with None -> None | Some q -> prehodna_funkcija avtomat q znak
-  in
-  niz |> String.to_seq |> Seq.fold_left aux (Some q)
