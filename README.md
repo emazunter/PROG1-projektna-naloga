@@ -1,8 +1,8 @@
 # Skladovni avtomati
 
-Neformalna definicija.
+Projektna naloga vsebuje implementacijo skladovnih avtomatov. Skladovni avtomati so nadgradnja končnih avtomatov, ki vsebuje še sklad, na katerega lahko ob vsakem prebranem znaku iz niza avtomat naloži znake ali jih iz njega vzame. 
 
-Razlika od končnih avtomatov.
+Glavni sestavni deli avtomata so njegova stanja, prehodi med njimi, sklad, ter trak, na katerem so simboli, ki jih avtomat bere. Avtomat delovanje prične v vnaprej določenem začetnem stanju. Nato prebere simbol s traka ter morebitni element na vrhu sklada in na osnovi tega izvede prehod v drugo stanje, ter morda doda ali vzame vrhnji element s sklada. Nato prebere naslednji simbol s traka in proces se ponovi. Proces se nato ponavlja, dokler na traku ne zmanjka simbolov. Avtomat potem niz bodisi sprejme bodisi ga ne, glede na to v katerem od stanj se avtomat nahaja ko zmanjka simbolov na traku.
 
 Specifičen primer za uporabo v projektni: primerjanje sintaktične pravilnosti izraza
 
@@ -12,10 +12,10 @@ Skladovni avtomat je matematično definiran kot nabor: $(Q, \Sigma, \Gamma, \del
 
 - $Q$ (končna) množica stanj,
 - $\Sigma$ končna množica, imenovana *vhodna abeceda*
-- $\Gamma_1, \Gamma_2, \Gamma_3$ končne množice, imenovane *skladovne abecede* posameznih skladov
-- $\delta$ končna podmnožica $Q \times (\Sigma \cup \{\epsilon\}) \times \Gamma_1 \times \Gamma_2 \times \Gamma_3 \to \mathcal{P}(Q \times \Gamma_1^* \times \Gamma_2^* \times \Gamma_3^*)$, kjer je $\epsilon$ prazen niz in $\Gamma^\*_1, \Gamma^\*_2, \Gamma^\*_3$ množice vseh končnih nizov iz skladovnih abeced $\Gamma_1, \Gamma_2, \Gamma_3$
+- $\Gamma$ končna množica, imenovana *skladovna abeceda*
+- $\delta$ končna podmnožica $Q \times (\Sigma \cup \{\epsilon\}) \times \Gamma \to \mathcal{P}(Q \times \Gamma^\*)$, kjer je $\epsilon$ prazen niz in $\Gamma^\*$ množica vseh končnih nizov iz skladovne abecede
 - $q_0 \in Q$ začetno stanje
-- $Z_1 \in \Gamma_1$, $Z_2 \in \Gamma_2$, $Z_3 \in \Gamma_3$ začetni simboli posameznih skladov
+- $Z \in \Gamma$ začetni simbol sklada
 - $F \subseteq Q$ množica sprejemnih stanj.
 
 Še un tadrug del kako deluje tranzicijska relacija??
