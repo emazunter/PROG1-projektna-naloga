@@ -8,7 +8,7 @@ let dodaj sez skl =
   | gl :: rp -> dodaj_aux rp (gl :: acc) 
   in dodaj_aux sez skl.sklad
 
-(* let ustvari (x : string) = dodaj x prazen *)
+let ustvari x = dodaj x prazen
 
 let vrh s = match s.sklad with
 | [] -> ""
