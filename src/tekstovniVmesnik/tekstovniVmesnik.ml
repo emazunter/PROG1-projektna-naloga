@@ -7,7 +7,6 @@ type stanje_vmesnika =
   | BranjeNiza
   | RezultatPrebranegaNiza
   | OpozoriloONapacnemNizu
-  (*  *)
 
 type model = {
   avtomat : t;
@@ -17,7 +16,7 @@ type model = {
 
 type msg = PreberiNiz of string | ZamenjajVmesnik of stanje_vmesnika
 
-(* let preberi_niz avtomat q niz =  *)
+let preberi_niz avtomat q niz = 
   let aux acc znak =
     match acc with
     | None -> None
@@ -25,7 +24,7 @@ type msg = PreberiNiz of string | ZamenjajVmesnik of stanje_vmesnika
   in
   niz |> String.to_seq |> Seq.fold_left aux (Some q)
 
-(* let update model = function  *)
+let update model = function 
   | PreberiNiz str -> (
       match preberi_niz model.avtomat model.stanje_avtomata str with
       | None -> { model with stanje_vmesnika = OpozoriloONapacnemNizu }

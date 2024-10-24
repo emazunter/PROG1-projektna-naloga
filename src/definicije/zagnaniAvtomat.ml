@@ -1,7 +1,7 @@
-type t = { avtomat : Avtomat.t; trak : Trak.t; stanje : Stanje.t sklad: Sklad.t}
+type t = { avtomat : Avtomat.t; trak : Trak.t; stanje : Stanje.t; sklad : Sklad.t}
 
 let pozeni avtomat trak =
-  { avtomat; trak; stanje = Avtomat.zacetno_stanje avtomat sklad = Avtomat.zacetni_sklad avtomat }
+  { avtomat; trak; stanje = Avtomat.zacetno_stanje avtomat; sklad = Avtomat.zacetni_sklad avtomat;}
 
 let avtomat { avtomat; _ } = avtomat
 let trak { trak; _ } = trak
@@ -12,13 +12,11 @@ let korak_naprej { avtomat; trak; stanje; sklad } =
   else
     let stanje' =
       Avtomat.prehodna_funkcija avtomat stanje (Sklad.vrh sklad) (Trak.trenutni_znak trak)
-
     in
     match stanje' with
     | None -> None
-    (* to se mores
-    | Some stanje' ->
-        Some { avtomat; trak = Trak.premakni_naprej trak; stanje = stanje' } *)
+    | Some (stanje', vrh') ->
+        Some { avtomat; trak = Trak.premakni_naprej trak; stanje = stanje'; sklad = (Sklad.dodaj vrh' (Sklad.vzemi sklad)) }
 
 let je_v_sprejemnem_stanju { avtomat; stanje; _ } =
   Avtomat.je_sprejemno_stanje avtomat stanje

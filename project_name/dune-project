@@ -1,6 +1,6 @@
 (lang dune 3.11)
 
-(name projektna)
+(name project_name)
 
 (generate_opam_files true)
 
@@ -16,7 +16,7 @@
 (documentation https://url/to/documentation)
 
 (package
- (name projektna)
+ (name project_name)
  (synopsis "A short synopsis")
  (description "A longer description")
  (depends ocaml dune)

@@ -1,7 +1,7 @@
 type t 
 
-val ustvari : string -> t
 val prazen : t
-val dodaj : string list -> t -> t
-(* val ustvari : string -> t *)
-val vrh : t -> string
+val dodaj : char list -> t -> t
+val ustvari : char list -> t
+val vrh : t -> char
+val vzemi : t -> t
