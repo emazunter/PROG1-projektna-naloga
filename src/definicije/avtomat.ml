@@ -4,11 +4,14 @@ type sklad = Sklad.t
 type t = {
   stanja : stanje list;
   sklad : sklad;
-  prehodi : (stanje * char * string * stanje * string list) list;
+  prehodi : (stanje * char * char * stanje * char list) list;
+  epsilon_prehodi : ( stanje * char * stanje * char list ) list;
   zacetno_stanje : stanje;
   zacetni_sklad : sklad;
   sprejemna_stanja : stanje list;
 }
+
+let zacetni_sklad avtomat = avtomat.zacetni_sklad
 
 let prazen_avtomat zacetno_stanje s =
   {
@@ -34,13 +37,13 @@ let dodaj_sprejemno_stanje stanje avtomat =
 let dodaj_prehod stanje1 prebrano vrh stanje2 nov_vrh avtomat =
   { avtomat with prehodi = (stanje1, prebrano, vrh, stanje2, nov_vrh) :: avtomat.prehodi }
 
-let dodaj_epsilon_prehod stanje1 vrh stanje2 (nov_vrh : string list) avtomat =
+let dodaj_epsilon_prehod stanje1 vrh stanje2 (nov_vrh : char list) avtomat =
   { avtomat with epsilon_prehodi = (stanje1, vrh, stanje2, nov_vrh) :: avtomat.epsilon_prehodi }
 
 let prehodna_funkcija avtomat stanje prebrano vrh =
   match
     List.find_opt
-      (fun (stanje1, prebrano', vrh', stanje2, nov_vrh) -> stanje1 = stanje && prebrano = prebrano' && vrh = vrh')
+      (fun (stanje1, prebrano', vrh', _, _) -> stanje1 = stanje && prebrano = prebrano' && vrh = vrh')
       avtomat.prehodi
   with
   | None -> None
@@ -55,14 +58,7 @@ let seznam_prehodov avtomat = avtomat.prehodi
 let je_sprejemno_stanje avtomat stanje =
   List.mem stanje avtomat.sprejemna_stanja
 
-(* let preberi_niz avtomat q niz =
-  let aux acc znak =
-    match acc with None -> None | Some q -> prehodna_funkcija avtomat q znak
-  in
-  niz |> String.to_seq |> Seq.fold_left aux (Some q) *)
-
   (* 3. naredi funkcije za epsilon prehode
-     4. dodaj  prehode na koncu
      5. uredi uno z ne-ji??*)
 
   let sintaksa_oklepajev = 
@@ -72,63 +68,61 @@ let je_sprejemno_stanje avtomat stanje =
     and q3 = Stanje.iz_niza "q3"
     and q4 = Stanje.iz_niza "q4"
     in
-    prazen_avtomat q0 (Sklad.ustvari ["x"])
+    prazen_avtomat q0 (Sklad.ustvari ['x'])
     |> dodaj_nesprejemno_stanje q1
     |> dodaj_sprejemno_stanje q2 
     |> dodaj_nesprejemno_stanje q3
     |> dodaj_sprejemno_stanje q4
-    |> dodaj_prehod q0 '(' "x" q1 ["1"; "x"]
-    |> dodaj_prehod q0 '[' "x" q1 ["2"; "x"]
-    |> dodaj_prehod q0 '{' "x" q1 ["3"; "x"]
-    |> dodaj_prehod q0 ')' "x" q3 ["ne"]
-    |> dodaj_prehod q0 ']' "x" q3 ["ne"]
-    |> dodaj_prehod q0 '}' "x" q3 ["ne"]
+    |> dodaj_prehod q0 '(' 'x' q1 ['1'; 'x']
+    |> dodaj_prehod q0 '[' 'x' q1 ['2'; 'x']
+    |> dodaj_prehod q0 '{' 'x' q1 ['3'; 'x']
+    |> dodaj_prehod q0 ')' 'x' q3 ['N']
+    |> dodaj_prehod q0 ']' 'x' q3 ['N']
+    |> dodaj_prehod q0 '}' 'x' q3 ['N']
   
-    |> dodaj_prehod q1 '(' "1" q1 ["1"; "1"]
-    |> dodaj_prehod q1 '[' "1" q1 ["2"; "1"]
-    |> dodaj_prehod q1 '{' "1" q1 ["3"; "1"]
-    |> dodaj_prehod q1 '(' "2" q1 ["1"; "2"]
-    |> dodaj_prehod q1 '[' "2" q1 ["2"; "2"]
-    |> dodaj_prehod q1 '{' "2" q1 ["3"; "2"]
-    |> dodaj_prehod q1 '(' "3" q1 ["1"; "3"]
-    |> dodaj_prehod q1 '[' "3" q1 ["2"; "3"]
-    |> dodaj_prehod q1 '{' "3" q1 ["3"; "3"]
+    |> dodaj_prehod q1 '(' '1' q1 ['1'; '1']
+    |> dodaj_prehod q1 '[' '1' q1 ['2'; '1']
+    |> dodaj_prehod q1 '{' '1' q1 ['3'; '1']
+    |> dodaj_prehod q1 '(' '2' q1 ['1'; '2']
+    |> dodaj_prehod q1 '[' '2' q1 ['2'; '2']
+    |> dodaj_prehod q1 '{' '2' q1 ['3'; '2']
+    |> dodaj_prehod q1 '(' '3' q1 ['1'; '3']
+    |> dodaj_prehod q1 '[' '3' q1 ['2'; '3']
+    |> dodaj_prehod q1 '{' '3' q1 ['3'; '3']
 
-    |> dodaj_prehod q1 ')' "1" q2 []
-    |> dodaj_prehod q1 ']' "1" q3 ["ne"]
-    |> dodaj_prehod q1 '}' "1" q3 ["ne"]
-    |> dodaj_prehod q1 ')' "2" q3 ["ne"]
-    |> dodaj_prehod q1 ']' "2" q2 []
-    |> dodaj_prehod q1 '}' "2" q3 ["ne"]
-    |> dodaj_prehod q1 ')' "3" q3 ["ne"]
-    |> dodaj_prehod q1 ']' "3" q3 ["ne"]
-    |> dodaj_prehod q1 '}' "3" q2 []
+    |> dodaj_prehod q1 ')' '1' q2 []
+    |> dodaj_prehod q1 ']' '1' q3 ['N']
+    |> dodaj_prehod q1 '}' '1' q3 ['N']
+    |> dodaj_prehod q1 ')' '2' q3 ['N']
+    |> dodaj_prehod q1 ']' '2' q2 []
+    |> dodaj_prehod q1 '}' '2' q3 ['N']
+    |> dodaj_prehod q1 ')' '3' q3 ['N']
+    |> dodaj_prehod q1 ']' '3' q3 ['N']
+    |> dodaj_prehod q1 '}' '3' q2 []
 
-    |> dodaj_prehod q2 '(' "1" q1 ["1"; "1"]
-    |> dodaj_prehod q2 '(' "2" q1 ["1"; "2"]
-    |> dodaj_prehod q2 '(' "3" q1 ["1"; "3"]
+    |> dodaj_prehod q2 '(' '1' q1 ['1'; '1']
+    |> dodaj_prehod q2 '(' '2' q1 ['1'; '2']
+    |> dodaj_prehod q2 '(' '3' q1 ['1'; '3']
 
-    |> dodaj_prehod q2 '[' "1" q1 ["2"; "1"]
-    |> dodaj_prehod q2 '[' "2" q1 ["2"; "2"]
-    |> dodaj_prehod q2 '[' "3" q1 ["2"; "3"]
+    |> dodaj_prehod q2 '[' '1' q1 ['2'; '1']
+    |> dodaj_prehod q2 '[' '2' q1 ['2'; '2']
+    |> dodaj_prehod q2 '[' '3' q1 ['2'; '3']
 
-    |> dodaj_prehod q2 '{' "1" q1 ["3"; "1"]
-    |> dodaj_prehod q2 '{' "2" q1 ["3"; "2"]
-    |> dodaj_prehod q2 '{' "3" q1 ["3"; "3"]
+    |> dodaj_prehod q2 '{' '1' q1 ['3'; '1']
+    |> dodaj_prehod q2 '{' '2' q1 ['3'; '2']
+    |> dodaj_prehod q2 '{' '3' q1 ['3'; '3']
     
-    |> dodaj_prehod q2 ')' "1" q2 []
-    |> dodaj_prehod q2 ']' "2" q2 []
-    |> dodaj_prehod q2 '(' "3" q2 []
-    |> dodaj_prehod q2 ')' "2" q3 ["ne"]
-    |> dodaj_prehod q2 ']' "1" q3 ["ne"]
-    |> dodaj_prehod q2 '(' "2" q3 ["ne"]
-    |> dodaj_prehod q2 ')' "3" q3 ["ne"]
-    |> dodaj_prehod q2 ']' "3" q3 ["ne"]
-    |> dodaj_prehod q2 '(' "1" q3 ["ne"]
+    |> dodaj_prehod q2 ')' '1' q2 []
+    |> dodaj_prehod q2 ']' '2' q2 []
+    |> dodaj_prehod q2 '(' '3' q2 []
+    |> dodaj_prehod q2 ')' '2' q3 ['N']
+    |> dodaj_prehod q2 ']' '1' q3 ['N']
+    |> dodaj_prehod q2 '(' '2' q3 ['N']
+    |> dodaj_prehod q2 ')' '3' q3 ['N']
+    |> dodaj_prehod q2 ']' '3' q3 ['N']
+    |> dodaj_prehod q2 '(' '1' q3 ['N']
 
-    |> dodaj_epsilon_prehod q2 "x" q4 ["x"]
-    |> dodaj_epsilon_prehod q2 "1" q3 ["x"]
-    |> dodaj_epsilon_prehod q2 "2" q3 ["x"]
-    |> dodaj_epsilon_prehod q2 "3" q3 ["x"]
-
-  
+    |> dodaj_epsilon_prehod q2 'x' q4 ['x']
+    |> dodaj_epsilon_prehod q2 '1' q3 ['x']
+    |> dodaj_epsilon_prehod q2 '2' q3 ['x']
+    |> dodaj_epsilon_prehod q2 '3' q3 ['x']
