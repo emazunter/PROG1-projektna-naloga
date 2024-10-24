@@ -4,7 +4,7 @@ Projektna naloga vsebuje implementacijo skladovnih avtomatov. Skladovni avtomati
 
 Glavni sestavni deli avtomata so njegova stanja, prehodi med njimi, sklad, ter trak, na katerem so simboli, ki jih avtomat bere. Avtomat delovanje prične v vnaprej določenem začetnem stanju. Nato prebere simbol s traka ter morebitni element na vrhu sklada in na osnovi tega izvede prehod v drugo stanje, ter morda doda ali vzame vrhnji element s sklada. Nato prebere naslednji simbol s traka in proces se ponovi. Proces se nato ponavlja, dokler na traku ne zmanjka simbolov. Avtomat potem niz bodisi sprejme bodisi ga ne, glede na to v katerem od stanj se avtomat nahaja ko zmanjka simbolov na traku.
 
-Specifičen primer za uporabo v projektni: primerjanje sintaktične pravilnosti izraza
+V svoji projektni nalogi bom kot primer skladovnega avtomata implementirala avtomat, ki sprejema nize, sestavljene iz znakov (, ), [, ], {, in }. ""
 
 ## Matematična definicija
 
@@ -20,9 +20,12 @@ Skladovni avtomat je matematično definiran kot nabor: $(Q, \Sigma, \Gamma, \del
 
 Še un tadrug del kako deluje tranzicijska relacija??
 
-## Moj primer.
+## Moja implementacija
 
-Implementirala bom skladovni avtomat, ki preverja sintaktično pravilnost niza z gnezdenimi oklepaji, tj. z znaki (, ), [, ], {, in }. 
+Implementirala bom skladovni avtomat, ki preverja sintaktično pravilnost niza z znaki "(", ")", "[", "]", "{", in "}". 
+Vsak posamezen uklepaj mora imeti za njim ustrezen zaklepaj, poleg tega pa morajo biti oklepaji pravilno gnezdeni, tj. uklepaju ene vrste ne sme slediti zaklepaj druge vrste. Avtomat bo torej sprejel niz "([{}])", ne bo pa sprejel nizov "[](", "({)}" ali "abcd".
+
+Bolj natančno kako deluje, stanja itd.
 
 ## Navodila za uporabo.
 
@@ -38,6 +41,3 @@ Informacije o skladovnih avtomatih: https://en.wikipedia.org/wiki/Pushdown_autom
 Reddit ima vse odgovore: https://www.reddit.com/r/computerscience/comments/jy2hhe/where_we_use_pushdown_automata_exactly/
 V bistvu mi odgovori iz Reddita niso bili všeč in iščem naprej: https://www.geeksforgeeks.org/applications-of-various-automata/
 
-## Avtorji
-
-To sem sexy jaz
