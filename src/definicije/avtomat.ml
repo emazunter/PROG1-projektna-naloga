@@ -70,10 +70,13 @@ let je_sprejemno_stanje avtomat stanje =
     |> dodaj_nesprejemno_stanje q1
     |> dodaj_sprejemno_stanje q2 
     |> dodaj_nesprejemno_stanje q3
- 
+ (* kAJ PA ČE NSO DOBRO GNEZDENI OKLEPAJI *)
     |> dodaj_prehod q0 '(' "" q1 ["1"]
     |> dodaj_prehod q0 '[' "" q1 ["2"]
     |> dodaj_prehod q0 '{' "" q1 ["3"]
+    |> dodaj_prehod q0 ')' "" q3 ["ne"]
+    |> dodaj_prehod q0 ']' "" q3 ["ne"]
+    |> dodaj_prehod q0 '}' "" q3 ["ne"]
   
     |> dodaj_prehod q1 '(' "1" q1 ["1"; "1"]
     |> dodaj_prehod q1 '[' "1" q1 ["2"; "1"]
