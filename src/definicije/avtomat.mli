@@ -11,3 +11,4 @@ val seznam_prehodov : t -> (Stanje.t * char * string * Stanje.t * string list) l
 val je_sprejemno_stanje : t -> Stanje.t -> bool
 val sintaksa_oklepajev : t
 val zacetni_sklad : t -> Sklad.t
+val izpisi_prehode : t -> unit

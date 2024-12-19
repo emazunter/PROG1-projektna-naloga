@@ -32,7 +32,21 @@ let dodaj_sprejemno_stanje stanje avtomat =
 let dodaj_prehod stanje1 prebrano vrh stanje2 nov_vrh avtomat =
   { avtomat with prehodi = (stanje1, prebrano, vrh, stanje2, nov_vrh) :: avtomat.prehodi }
 
+  let izpisi_prehode avtomat =
+    List.iter
+      (fun (stanje1, prebrano, vrh, stanje2, nov_vrh) ->
+        Printf.printf "From state: %s\n" (Stanje.v_niz stanje1);
+        Printf.printf "Input: %c\n" prebrano;
+        Printf.printf "Stack top: %s\n" vrh;
+        Printf.printf "To state: %s\n" (Stanje.v_niz stanje2);
+        Printf.printf "New stack top: %s\n" (String.concat "" nov_vrh);
+        print_endline "-----"
+      )
+      avtomat.prehodi
+
 let prehodna_funkcija avtomat stanje prebrano vrh =
+  (* izpisi_prehode avtomat; *)
+
   print_endline ("Current state: " ^ Stanje.v_niz stanje);
   print_endline ("Input: " ^ Char.escaped prebrano);
   print_endline ("Stack top: " ^ String.escaped vrh);
@@ -65,7 +79,7 @@ let sintaksa_oklepajev =
   |> dodaj_nesprejemno_stanje q1 
   |> dodaj_sprejemno_stanje q2 
   |> dodaj_nesprejemno_stanje q3
-  |> dodaj_prehod q0 '(' "x" q1 ["1"; "x"]
+  |> dodaj_prehod q0 '(' "x" q1 ["x";"1"]
   |> dodaj_prehod q0 ')' "x" q3 ["n"]
   |> dodaj_prehod q1 '(' "1" q1 ["1"; "1"]
   |> dodaj_prehod q1 ')' "1" q2 []
@@ -73,3 +87,7 @@ let sintaksa_oklepajev =
   |> dodaj_prehod q2 ')' "x" q3 ["n"]
   |> dodaj_prehod q2 '(' "1" q1 ["1"]
   |> dodaj_prehod q2 '(' "x" q1 ["1"]
+
+
+
+
