@@ -1,7 +1,8 @@
 type t 
 
 val prazen : t
-val dodaj : char list -> t -> t
-val ustvari : char list -> t
-val vrh : t -> char
+val dodaj : string list -> t -> t
+val ustvari : string list -> t
+val vrh : t -> string
 val vzemi : t -> t
+

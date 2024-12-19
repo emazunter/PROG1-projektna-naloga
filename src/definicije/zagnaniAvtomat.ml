@@ -1,7 +1,7 @@
 type t = { avtomat : Avtomat.t; trak : Trak.t; stanje : Stanje.t; sklad : Sklad.t}
 
 let pozeni avtomat trak =
-  { avtomat; trak; stanje = Avtomat.zacetno_stanje avtomat; sklad = Avtomat.zacetni_sklad avtomat;}
+  { avtomat; trak; stanje = Avtomat.zacetno_stanje avtomat; sklad = Avtomat.zacetni_sklad avtomat}
 
 let avtomat { avtomat; _ } = avtomat
 let trak { trak; _ } = trak
@@ -11,7 +11,7 @@ let korak_naprej { avtomat; trak; stanje; sklad } =
   if Trak.je_na_koncu trak then None
   else
     let stanje' =
-      Avtomat.prehodna_funkcija avtomat stanje (Sklad.vrh sklad) (Trak.trenutni_znak trak)
+      Avtomat.prehodna_funkcija avtomat stanje (Trak.trenutni_znak trak) (Sklad.vrh sklad)
     in
     match stanje' with
     | None -> None

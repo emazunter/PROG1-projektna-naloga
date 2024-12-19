@@ -1,4 +1,4 @@
-type t = {sklad : char list}
+type t = {sklad : string list}
 
 let prazen =  {sklad = []}
 
@@ -10,10 +10,13 @@ let dodaj sez skl =
 
 let ustvari x = dodaj x prazen
 
-let vrh s = match s.sklad with
-| [] -> 'j'
-| gl :: _ -> gl
+let vrh s = 
+  match s.sklad with
+  | [] -> ""  
+  | gl :: _ -> gl  
 
-let vzemi s = match s.sklad with
-| [] -> {sklad = []}
-| _ :: rp -> {sklad = rp}
+let vzemi s = 
+  match s.sklad with
+  | [] -> {sklad = []}
+  | _ :: rp -> {sklad = rp}
+

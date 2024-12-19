@@ -1,8 +1,8 @@
 # Skladovni avtomati
 
-Projektna naloga vsebuje implementacijo skladovnih avtomatov. Skladovni avtomati so nadgradnja končnih avtomatov, ki vsebuje še sklad, na katerega lahko ob vsakem prebranem znaku iz niza avtomat naloži znake ali jih iz njega vzame. 
+Projektna naloga vsebuje implementacijo skladovnih avtomatov. Skladovni avtomati so nadgradnja končnih avtomatov, ki dodatno vsebuje še sklad, na katerega lahko avtomat naloži znake ali jih iz njega vzame. 
 
-Glavni sestavni deli avtomata so njegova stanja, prehodi med njimi, sklad, ter trak, na katerem so simboli, ki jih avtomat bere. Avtomat delovanje prične v vnaprej določenem začetnem stanju. Nato prebere simbol s traka ter morebitni element na vrhu sklada in na osnovi tega izvede prehod v drugo stanje, ter morda doda ali vzame vrhnji element s sklada. Nato prebere naslednji simbol s traka in proces se ponovi. Proces se nato ponavlja, dokler na traku ne zmanjka simbolov. Avtomat potem niz bodisi sprejme bodisi ga ne, glede na to, v katerem od stanj se avtomat nahaja ko zmanjka simbolov na traku.
+Glavni deli avtomata so njegova stanja, prehodi med njimi, sklad, ter trak, na katerem so simboli, ki jih avtomat bere. Avtomat delovanje prične v vnaprej določenem začetnem stanju. Nato prebere simbol s traka ter morebitni element na vrhu sklada in na osnovi tega izvede prehod v drugo stanje, ter morda doda ali vzame vrhnji element s sklada. Nato prebere naslednji simbol s traka in proces se ponovi. Proces se nato ponavlja, dokler na traku ne zmanjka simbolov. Avtomat potem niz bodisi sprejme bodisi ga ne, odvisno od stanja, v katerem se avtomat nahaja, ko zmanjka simbolov na traku.
 
 V svoji projektni nalogi bom kot primer skladovnega avtomata implementirala avtomat, ki sprejema nize, sestavljene iz znakov "(", ")", "[", "]", "{", in "}", in preverja njihovo sintaktično pravilnost. 
 
