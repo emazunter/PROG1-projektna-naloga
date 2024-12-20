@@ -11,51 +11,30 @@ type stanje_vmesnika =
 type model = {
   avtomat : t;
   stanje_avtomata : Stanje.t;
+  sklad_avtomata : Sklad.t;
   stanje_vmesnika : stanje_vmesnika;
 }
 type msg = PreberiNiz of string | ZamenjajVmesnik of stanje_vmesnika
 
-
 let preberi_niz avtomat niz =
-  let trak = Trak.iz_niza niz in
-  let zagnani_avtomat = ZagnaniAvtomat.pozeni avtomat trak
-  in
-  let rec aux acc =
-  if Trak.je_na_koncu (ZagnaniAvtomat.trak acc) then Some(ZagnaniAvtomat.stanje acc) else
-  match ZagnaniAvtomat.korak_naprej acc with
-    |None -> None
-    |Some(a) -> aux a
-  in aux zagnani_avtomat
-
-
-(* let preberi_niz avtomat niz =
-  let trak = Trak.iz_niza niz in
-  let zagnani_avtomat = ZagnaniAvtomat.pozeni avtomat trak
-  in
-  let rec aux acc =
-    if Trak.je_na_koncu (ZagnaniAvtomat.trak acc) then 
-      if Avtomat.je_sprejemno_stanje avtomat (ZagnaniAvtomat.stanje acc) then
-        Some (ZagnaniAvtomat.stanje acc)  (* Return the final state if accepting *)
-      else
-        None  (* Return None if not an accepting state *)
-    else
-      match ZagnaniAvtomat.korak_naprej acc with
-      | None -> None
-      | Some(a) -> aux a
-  in aux zagnani_avtomat *)
+  let input = List.init (String.length niz) (String.get niz) in
+  match Avtomat.delujoci_avtomat avtomat input with
+  | None -> None
+  | Some (koncno_stanje, koncni_sklad) -> Some (koncno_stanje, koncni_sklad)
 
 let update model = function
-  | PreberiNiz str -> (
-      match preberi_niz model.avtomat str with
+  | PreberiNiz niz -> (
+      match preberi_niz model.avtomat niz with
       | None -> { model with stanje_vmesnika = OpozoriloONapacnemNizu }
-      | Some stanje_avtomata ->
+      | Some (stanje_avtomata, koncni_sklad) ->
           {
             model with
             stanje_avtomata;
             stanje_vmesnika = RezultatPrebranegaNiza;
+            sklad_avtomata = koncni_sklad
           })
   | ZamenjajVmesnik stanje_vmesnika -> { model with stanje_vmesnika }
-      
+
 let rec izpisi_moznosti () =
   print_endline "1) izpiši avtomat";
   print_endline "2) beri znake";
@@ -86,7 +65,7 @@ let beri_niz _model =
   PreberiNiz str
     
 let izpisi_rezultat model =
-  if je_sprejemno_stanje model.avtomat model.stanje_avtomata then
+  if je_sprejemno_stanje model.avtomat model.stanje_avtomata && Sklad.je_prazen model.sklad_avtomata then
     print_endline "Niz je bil sprejet"
   else print_endline "Niz ni bil sprejet"
 
@@ -109,6 +88,7 @@ let init avtomat =
     avtomat;
     stanje_avtomata = zacetno_stanje avtomat;
     stanje_vmesnika = SeznamMoznosti;
+    sklad_avtomata = zacetni_sklad avtomat;
   }
 
 let rec loop model =

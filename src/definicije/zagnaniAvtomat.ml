@@ -6,6 +6,7 @@ let pozeni avtomat trak =
 let avtomat { avtomat; _ } = avtomat
 let trak { trak; _ } = trak
 let stanje { stanje; _ } = stanje
+let sklad { sklad; _ } = sklad
 
 let korak_naprej { avtomat; trak; stanje; sklad } =
   if Trak.je_na_koncu trak then None
@@ -20,3 +21,4 @@ let korak_naprej { avtomat; trak; stanje; sklad } =
 
 let je_v_sprejemnem_stanju { avtomat; stanje; _ } =
   Avtomat.je_sprejemno_stanje avtomat stanje
+

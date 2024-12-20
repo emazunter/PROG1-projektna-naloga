@@ -20,3 +20,8 @@ let vzemi s =
   | [] -> {sklad = []}
   | _ :: rp -> {sklad = rp}
 
+let je_prazen s =
+  match s.sklad with
+  | ["x"] -> true 
+  | _ -> false     
+
