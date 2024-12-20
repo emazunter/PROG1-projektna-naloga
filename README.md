@@ -22,10 +22,10 @@ Tranzicijsko relacijo lahko razumemo kot funkcijo, ki slika iz $Q \times (\Sigma
 
 ## Moja implementacija
 
-Implementirala bom skladovni avtomat, ki preverja sintaktično pravilnost niza z znaki "(", ")", "[", "]", "{", in "}". 
-Vsak posamezen uklepaj mora imeti za sabo (nekje v nizu) ustrezen zaklepaj, poleg tega pa morajo biti oklepaji pravilno gnezdeni. Avtomat bo torej sprejel nize "()()", "((()))", ne bo sprejel nizov "(", "(()", niz "abc" pa bo označil za neveljavnega.
+Implementirala bom skladovni avtomat, ki preverja sintaktično pravilnost niza, sestavnjenega iz znakov "(" in ")".
+Vsak posamezen uklepaj mora imeti za sabo (nekje v nizu) pripadajoč zaklepaj, poleg tega pa morajo biti oklepaji pravilno gnezdeni. Avtomat bo torej sprejel nize "()()", "((()))", ne bo sprejel nizov "(", "(()", niz "abc" pa bo označil za neveljavnega.
 
-Avtomat ima štiri stanja: začetno (q0), stanje "zadnji znak je bil uklepaj" (q1), "zadnji znak je bil zaklepaj" (q2), ter neveljavno stanje (q3). Avtomat delovanje začne v začetnem stanju, na skladu pa je črka x. Ko avtomat prebere prvi znak, začetno stanje zapusti in se vanj ne vrača. Ko avtomat prebere znak "(", se premakne v stanje q1, ter na sklad naloži "1". Ko avtomat prebere znak ")", s sklada pobere znak "1" in se premakne v stanje q2. Če avtomat prebere znak ")" in na skladu ni enke, se premakne v neveljavno stanje (q3), iz katerega se potem ne vrne. Če avtomat delovanje konča v stanju q1 ali q3, niza ne sprejme. Če delovanje konča v stanju q2 ali q0, preveri še, da je zadnji znak na skladu "x", torej da je sklad prazen. Če je na skladu karkoli drugega, avtomat niz zavrne. Če ni, je niz sprejet.
+Avtomat ima štiri stanja: *začetno* (q0), stanje *"zadnji znak je bil uklepaj"* (q1), *"zadnji znak je bil zaklepaj"* (q2), ter *neveljavno stanje* (q3). Avtomat delovanje začne v začetnem stanju, na skladu pa je črka x. Ko avtomat prebere prvi znak, začetno stanje zapusti in se vanj ne vrača. Ko avtomat prebere znak "(", se premakne v stanje q1, ter na sklad naloži "1". Ko avtomat prebere znak ")", s sklada pobere znak "1" in se premakne v stanje q2. Če avtomat prebere znak ")" in na skladu ni enke, se premakne v neveljavno stanje (q3), iz katerega se potem ne vrne. Če avtomat delovanje konča v stanju q1 ali q3, niza ne sprejme. Če delovanje konča v stanju q2 ali q0, preveri še, da je na vrhu sklada znak "x", torej da je sklad prazen. Če je na skladu karkoli drugega, avtomat niz zavrne. Če ni, je niz sprejet.
 
 ## Struktura datotek
 
@@ -38,9 +38,9 @@ V mapi *definicije* imamo datoteke:
 
 V mapi *tekstovniVmesik* pa se nahaja datoteka *tekstovniVmesnik.exe*, ki vsebuje implementacijo tekstovnega vmesnika.
 
-## Navodila za uporabo.
+## Navodila za uporabo
 
-V ml. datotekah imamo program, s pomočjo katerega bi lahko implementirali poljuben determinističen skladovni avtomat. Moja implementacija se požene s pomočjo tekstovnega vmesnika. Vmesnik poženemo tako, da v terminal najprej napišemo "dune build", potem pa "dune exec ./tekstovniVmesnik.exe". Takrat se nam odpre tekstovni vmesnik, s katerim lahko potem interaktiramo.
+V *.ml* datotekah imamo program, s pomočjo katerega bi lahko implementirali poljuben determinističen skladovni avtomat. Moja implementacija se požene s pomočjo tekstovnega vmesnika. Vmesnik poženemo tako, da v terminal najprej napišemo "dune build", potem pa "dune exec ./tekstovniVmesnik.exe". Takrat se nam odpre tekstovni vmesnik, s katerim lahko potem interaktiramo.
 
 ## Viri
 
